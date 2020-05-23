@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: 'Poppins', sans-serif;
+        background: black;
+        /* background:
+            url("https://images.unsplash.com/photo-1516912481808-3406841bd33c?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=183f2924ba5a8429441804609b2d4f61") no-repeat center / cover; */
+    }
+
+    body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: inherit;
+        filter: blur(10px);
+    }
+
+    .calendar {
+        position: relative;
+        width: 300px;
+        background-color: #fff;
+        box-sizing: border-box;
+        box-shadow: 0 5px 50px rgba(0, 0, 0, 0.5);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .calendar__picture {
+        position: relative;
+        height: 200px;
+        padding: 20px;
+        color: #fff;
+        background: #262626 url("https://images.unsplash.com/photo-1516912481808-3406841bd33c?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=183f2924ba5a8429441804609b2d4f61") no-repeat center / cover;
+        text-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+        box-sizing: border-box;
+    }
+
+    .calendar__picture::before {
+        content: "";
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        position: absolute;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.1));
+    }
+
+    .calendar__picture h2 {
+        margin: 0;
+    }
+
+    .calendar__picture h3 {
+        margin: 0;
+        font-weight: 500;
+    }
+
+    .calendar__date {
+        padding: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(25px, 1fr));
+        grid-gap: 10px;
+        box-sizing: border-box;
+    }
+
+    .calendar__day {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 25px;
+        font-weight: 600;
+        color: #262626;
+    }
+
+    .calendar__day:nth-child(1) {
+        color: #ff685d;
+    }
+
+    .calendar__number {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 25px;
+        color: #262626;
+    }
+
+    .calendar__number:nth-child(7n - 6) {
+        color: #ff685d;
+        font-weight: 700;
+    }
+
+    .calendar__number--current,
+    .calendar__number:hover {
+        background-color: #009688;
+        color: #fff !important;
+        font-weight: 700;
+        cursor: pointer;
+    }
+</style>
+
+<body>
+    <div class="calendar">
+        <div class="calendar__picture">
+            <h2>18, Sunday</h2>
+            <h3>November</h3>
+        </div>
+        <div id="calendar" class="calendar__date">
+            <div class="calendar__day">S</div>
+            <div class="calendar__day">M</div>
+            <div class="calendar__day">T</div>
+            <div class="calendar__day">W</div>
+            <div class="calendar__day">T</div>
+            <div class="calendar__day">F</div>
+            <div class="calendar__day">S</div>
+
+
+
+        </div>
+    </div>
+</body>
+<script>
+    let calHTML = document.getElementById("calendar")
+    let today = new Date()
+    // let notToday = today.setDate(today.getDate() + 2 )
+    // let todaysDate = today.getDay()
+    // alert(notToday)
+    let currentDate = today.getDate()
+    let nextMonth = today.getMonth() + 1
+    let year = today.getFullYear()
+    let maxDays = daysInMonth(nextMonth, year)
+    let blankDivs = previousMonth(nextMonth - 1, year)
+
+
+    function daysInMonth(month, year) {
+        return new Date(year, month, 0).getDate()
+    }
+
+    function previousMonth(month, year) {
+        return new Date(year, month, 0).getDay() + 1
+    }
+
+
+    for (let day = 0; day < blankDivs; day++) {
+        addBlankDivsHTML()
+    }
+
+    for (let day = 0; day < maxDays; day++) {
+        addDayHTML(day + 1)
+    }
+
+    let todayDiv = document.getElementById("date-" + currentDate)
+
+    todayDiv.classList.add("calendar__number--current")
+
+    function addBlankDivsHTML() {
+        let div = document.createElement("div")
+        calHTML.appendChild(div)
+        div.className = "calendar__number"
+    }
+
+    function addDayHTML(date) {
+        let div = document.createElement("div")
+        calHTML.appendChild(div)
+        div.className = "calendar__number"
+        div.id = "date-" + date
+        div.innerText = "" + date
+    }
+</script>
+<script>
+    // Old Teaching Stuff
+    let x = 5
+
+    x = x + 4
+
+    let object = {
+        x: 4
+    }
+
+    function add_on_object(some_obj, num_to_add) {
+        some_obj.x = some_obj.x + num_to_add
+        return 6
+    }
+
+    // alert(object.x) // 4
+
+    let something = add_on_object(object, 10)
+
+    // alert(something) // 6
+
+    // alert(object.x) // 14
+
+    function add_something(num_1, num_2) {
+        return num1 + num_2
+    }
+
+    let benjamin = 100
+    let money = add_something(benjamin, 20)
+
+    let master_date = {
+        week: 52,
+        day: 7,
+        date: 31,
+        month: 12,
+        hour: 20,
+        minute: 12,
+        second: 23
+    }
+
+    function add_days_to_master(days) {
+        master_date.date = master_date.date + days
+        return Math.PI
+    }
+
+
+    // function addTime(time1, time2) {
+    function getBGColor() {
+        return "black"
+    }
+
+    document.body.style.background = addTime()
+
+    function setBGColor() {
+        document.body.style.background = "black"
+        return "hello"
+    }
+</script>
+
+</html>
