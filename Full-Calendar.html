@@ -110,6 +110,13 @@
     font-weight: 700;
     cursor: pointer;
   }
+   .calendar__number--event,
+   .calendar__number--event:hover {
+   background-color: #888;
+   color: #fff !important;
+   font-weight: 700;
+   cursor: not-allowed;
+   }
 </style>
 
 <body>
@@ -176,6 +183,10 @@
           default: throw "Number is not a Month"
         }
     }
+    static fromString(date) {
+      let date_obj = new Date(date)
+      return date_obj.getDate()
+    }
   }
 
   class AddHTML {
@@ -230,6 +241,14 @@
   function setTodayDate() {
     let todayDiv = document.getElementById("date-" + currentDate)
     todayDiv.classList.add("calendar__number--current")
+
+    dayHTML.innerText = currentDate + ", " + Convert.toDayName(today.getDay())
+    monthHTML.innerText = Convert.toMonthName(nextMonth - 1)
+  }
+
+  function setEventDate(eventDate) {
+    let todayDiv = document.getElementById("date-" + eventDate)
+    todayDiv.classList.add("calendar__number--event")
 
     dayHTML.innerText = currentDate + ", " + Convert.toDayName(today.getDay())
     monthHTML.innerText = Convert.toMonthName(nextMonth - 1)
@@ -344,8 +363,11 @@
 
       events.forEach(cal_evnt => {
         let when = cal_evnt.start.dateTime;
+        when = Convert.fromString(when);
         let organizer= cal_evnt.organizer.displayName;
         let email = cal_evnt.organizer.email;
+
+        setEventDate(when)
        
         appendPre(cal_evnt.summary + "\n" + when + "\n" + organizer + "\n" + email)
       })
