@@ -14,6 +14,14 @@
     <pre id="content" style="white-space: pre-wrap;"></pre>
 
     <script type="text/javascript">
+      var queryInput = {
+          calendarId: 'dcfl7sc1fkc8gtas5fptrglm1c@group.calendar.google.com', // 'primary',
+          timeMin: (new Date()).toISOString(),
+          showDeleted: false,
+          singleEvents: true,
+          maxResults: 10,
+          orderBy: 'startTime'
+        }
       // Client ID and API key from the Developer Console
       var CLIENT_ID = '267166709217-ondrgm9acmq6gvegnbvqfr7f0lp8hpu5.apps.googleusercontent.com';
       var API_KEY = 'AIzaSyBsXs13s61GYFU75jnODQARp9YptRFuGZg';
@@ -105,14 +113,8 @@
        * appropriate message is printed.
        */
       function listUpcomingEvents() {
-        gapi.client.calendar.events.list({
-          'calendarId': 'primary',
-          'timeMin': (new Date()).toISOString(),
-          'showDeleted': false,
-          'singleEvents': true,
-          'maxResults': 10,
-          'orderBy': 'startTime'
-        }).then(function(response) {
+        console.log(gapi)
+        gapi.client.calendar.events.list(queryInput).then(function(response) {
           var events = response.result.items;
           appendPre('Upcoming events:');
 
