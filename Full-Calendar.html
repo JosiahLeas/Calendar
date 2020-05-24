@@ -217,12 +217,15 @@
   let year = today.getFullYear()
   let maxDays = daysInMonth(nextMonth, year)
   let blankDivs = previousMonth(nextMonth - 1, year)
+  let monthStart = currentMonth()
 
 
   function daysInMonth(month, year) {
     return new Date(year, month, 0).getDate()
   }
-
+  function currentMonth() {
+    return new Date(today.getFullYear(), today.getMonth(), 1)
+  }
   function previousMonth(month, year) {
     return new Date(year, month, 0).getDay() + 1
   }
@@ -257,7 +260,7 @@
 <script>
   let queryInput = {
     calendarId: 'dcfl7sc1fkc8gtas5fptrglm1c@group.calendar.google.com', // 'primary',
-    timeMin: (new Date()).toISOString(),
+    timeMin: monthStart.toISOString(),
     showDeleted: false,
     singleEvents: true,
     maxResults: 10,
@@ -362,7 +365,8 @@
       if (events.length < 1) return appendPre('No upcoming events found.')
 
       events.forEach(cal_evnt => {
-        let when = cal_evnt.start.dateTime;
+        console.log(cal_evnt)
+        let when = cal_evnt.start.date || cal_evnt.start.dateTime;
         when = Convert.fromString(when);
         let organizer= cal_evnt.organizer.displayName;
         let email = cal_evnt.organizer.email;
