@@ -176,7 +176,6 @@
           default: throw "Number is not a Month"
         }
     }
-
   }
 
   class AddHTML {
@@ -237,7 +236,7 @@
   }
 </script>
 <script>
-  var queryInput = {
+  let queryInput = {
     calendarId: 'dcfl7sc1fkc8gtas5fptrglm1c@group.calendar.google.com', // 'primary',
     timeMin: (new Date()).toISOString(),
     showDeleted: false,
@@ -246,18 +245,18 @@
     orderBy: 'startTime'
   }
   // Client ID and API key from the Developer Console
-  var CLIENT_ID = '267166709217-ondrgm9acmq6gvegnbvqfr7f0lp8hpu5.apps.googleusercontent.com';
-  var API_KEY = 'AIzaSyBsXs13s61GYFU75jnODQARp9YptRFuGZg';
+  let CLIENT_ID = '267166709217-ondrgm9acmq6gvegnbvqfr7f0lp8hpu5.apps.googleusercontent.com';
+  let API_KEY = 'AIzaSyBsXs13s61GYFU75jnODQARp9YptRFuGZg';
 
   // Array of API discovery doc URLs for APIs used by the quickstart
-  var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
+  let DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
 
   // Authorization scopes required by the API; multiple scopes can be
   // included, separated by spaces.
-  var SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
+  let SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
 
-  var authorizeButton = document.getElementById('authorize_button');
-  var signoutButton = document.getElementById('signout_button');
+  let authorizeButton = document.getElementById('authorize_button');
+  let signoutButton = document.getElementById('signout_button');
 
   /**
    *  On load, called to load the auth2 library and API client library.
@@ -325,8 +324,8 @@
    * @param {string} message Text to be placed in pre element.
    */
   function appendPre(message) {
-    var pre = document.getElementById('content');
-    var textContent = document.createTextNode(message + '\n');
+    let pre = document.getElementById('content');
+    let textContent = document.createTextNode(message + '\n');
     pre.appendChild(textContent);
   }
 
@@ -338,21 +337,18 @@
   function listUpcomingEvents() {
     console.log(gapi)
     gapi.client.calendar.events.list(queryInput).then(function (response) {
-      var events = response.result.items;
+      let events = response.result.items;
       appendPre('Upcoming events:');
 
-      if (events.length > 0) {
-        for (i = 0; i < events.length; i++) {
-          var event = events[i];
-          var when = event.start.dateTime;
-          if (!when) {
-            when = event.start.date;
-          }
-          appendPre(event.summary + ' (' + when + ')')
-        }
-      } else {
-        appendPre('No upcoming events found.');
-      }
+      if (events.length < 1) return appendPre('No upcoming events found.')
+
+      events.forEach(cal_evnt => {
+        let when = cal_evnt.start.dateTime;
+        let organizer= cal_evnt.organizer.displayName;
+        let email = cal_evnt.organizer.email;
+       
+        appendPre(cal_evnt.summary + "\n" + when + "\n" + organizer + "\n" + email)
+      })
     });
   }
 </script>
