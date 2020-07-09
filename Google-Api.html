@@ -22,16 +22,25 @@
           maxResults: 10,
           orderBy: 'startTime'
         }
-      // Client ID and API key from the Developer Console
-      let CLIENT_ID = '267166709217-ondrgm9acmq6gvegnbvqfr7f0lp8hpu5.apps.googleusercontent.com';
-      let API_KEY = 'AIzaSyBsXs13s61GYFU75jnODQARp9YptRFuGZg';
 
-      // Array of API discovery doc URLs for APIs used by the quickstart
-      let DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
+      let apiInfo = {
+        apiKey: 'AIzaSyBsXs13s61GYFU75jnODQARp9YptRFuGZg',
+        clientId: '267166709217-ondrgm9acmq6gvegnbvqfr7f0lp8hpu5.apps.googleusercontent.com',
+        discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
+        scope: "https://www.googleapis.com/auth/calendar.readonly"
+      }
 
-      // Authorization scopes required by the API; multiple scopes can be
-      // included, separated by spaces.
-      let SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
+
+      // // // // // Client ID and API key from the Developer Console
+      // // // // let CLIENT_ID = '267166709217-ondrgm9acmq6gvegnbvqfr7f0lp8hpu5.apps.googleusercontent.com';
+      // // // // let API_KEY = 'AIzaSyBsXs13s61GYFU75jnODQARp9YptRFuGZg';
+
+      // // // // // Array of API discovery doc URLs for APIs used by the quickstart
+      // // // // let DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
+
+      // // // // // Authorization scopes required by the API; multiple scopes can be
+      // // // // // included, separated by spaces.
+      // // // // let SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
 
       let authorizeButton = document.getElementById('authorize_button');
       let signoutButton = document.getElementById('signout_button');
@@ -47,13 +56,7 @@
        *  Initializes the API client library and sets up sign-in state
        *  listeners.
        */
-      function initClient() {
-        let obj = {
-          apiKey: API_KEY,
-          clientId: CLIENT_ID,
-          discoveryDocs: DISCOVERY_DOCS,
-          scope: SCOPES
-        }
+      function initClient(obj = apiInfo) {
         gapi.client.init(obj).then(function () {
           // Listen for sign-in state changes.
           gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
