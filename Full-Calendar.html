@@ -130,8 +130,20 @@
     <br><br><br><br>
 
     <!--Add buttons to initiate auth sequence and sign out-->
-    <div> <button id="authorize_button" onclick="handleAuthClick()" style="display: none;">Authorize</button>
-      <button id="signout_button" onclick="handleSignoutClick()" style="display: none;">Sign Out</button>
+    <div> 
+      <button id="authorize_button" 
+        onclick="gapi.auth2.getAuthInstance().signIn()" 
+        style="display: none;"
+        >
+        Authorize
+      </button>
+
+      <button id="signout_button" 
+        onclick="gapi.auth2.getAuthInstance().signOut()" 
+        style="display: none;"
+        >
+        Sign Out
+      </button>
       <pre id="content" style="white-space: pre-wrap;"></pre>
     </div>
   </div>
@@ -239,12 +251,10 @@
     monthHTML.innerText = Convert.toMonthName(nextMonth - 1)
   }
 
-  function setEventDate(eventDate) {
-    let todayDiv = document.getElementById("date-" + eventDate)
+  function setEventDate(eventDate = "2020-01-01") {
+    let date = eventDate.split("-")
+    let todayDiv = document.getElementById("date-" + parseInt(date[2]))
     todayDiv.classList.add("calendar__number--event")
-
-    dayHTML.innerText = currentDate + ", " + Convert.toDayName(today.getDay())
-    monthHTML.innerText = Convert.toMonthName(nextMonth - 1)
   }
 </script>
 <script type="text/javascript">
@@ -295,7 +305,6 @@
    *  appropriately. After a sign-in, the API is called.
    */
   function updateSigninStatus(isSignedIn) {
-    console.log(isSignedIn)
     if (isSignedIn) {
       authorizeButton.style.display = 'none';
       signoutButton.style.display = 'block';
@@ -304,21 +313,6 @@
       authorizeButton.style.display = 'block';
       signoutButton.style.display = 'none';
     }
-  }
-
-  /**
-   *  Sign in the user upon button click.
-   */
-  function handleAuthClick(event) {
-    console.log("sign in")
-    gapi.auth2.getAuthInstance().signIn();
-  }
-
-  /**
-   *  Sign out the user upon button click.
-   */
-  function handleSignoutClick(event) {
-    gapi.auth2.getAuthInstance().signOut();
   }
 
   /**
@@ -339,7 +333,6 @@
    * appropriate message is printed.
    */
   function listUpcomingEvents() {
-    console.log(gapi)
     gapi.client.calendar.events.list(queryInput).then(function(response) {
       let events = response.result.items;
       appendPre('Upcoming events:');
@@ -348,10 +341,9 @@
         for (i = 0; i < events.length; i++) {
           let event = events[i];
           let when = event.start.dateTime;
-          if (!when) {
-            when = event.start.date;
-          }
+          if (!when) when = event.start.date;
           appendPre(event.summary + ' (' + when + ')')
+          setEventDate(when)
         }
       } else {
         appendPre('No upcoming events found.');
