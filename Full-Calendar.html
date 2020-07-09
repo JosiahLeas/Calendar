@@ -2,315 +2,384 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 </head>
 <style>
-    body {
-        position: relative;
-        justify-content: center;
-        align-items: center;
-        display: flex;
-        height: 100vh;
-        font-family: 'Poppins', sans-serif;
-        /* background: black; */
-        /* background:
+  body {
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    /* background: black; */
+    /* background:
             url("https://images.unsplash.com/photo-1516912481808-3406841bd33c?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=183f2924ba5a8429441804609b2d4f61") no-repeat center / cover; */
-    }
+  }
 
-    body::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        background: inherit;
-        filter: blur(10px);
-    }
+  body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: inherit;
+    filter: blur(10px);
+  }
 
-    .calendar {
-        position: relative;
-        width: 300px;
-        background-color: #fff;
-        box-sizing: border-box;
-        box-shadow: 0 5px 50px rgba(0, 0, 0, 0.5);
-        border-radius: 8px;
-        overflow: hidden;
-    }
+  .calendar {
+    position: relative;
+    width: 300px;
+    background-color: #fff;
+    box-sizing: border-box;
+    box-shadow: 0 5px 50px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    overflow: hidden;
+  }
 
-    .calendar__picture {
-        position: relative;
-        height: 200px;
-        padding: 20px;
-        color: #fff;
-        background: #262626 url("https://images.unsplash.com/photo-1516912481808-3406841bd33c?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=183f2924ba5a8429441804609b2d4f61") no-repeat center / cover;
-        text-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-        box-sizing: border-box;
-    }
+  .calendar__picture {
+    position: relative;
+    height: 200px;
+    padding: 20px;
+    color: #fff;
+    background: #262626 url("https://images.unsplash.com/photo-1516912481808-3406841bd33c?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ&s=183f2924ba5a8429441804609b2d4f61") no-repeat center / cover;
+    text-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+  }
 
-    .calendar__picture::before {
-        content: "";
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        position: absolute;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.1));
-    }
+  .calendar__picture::before {
+    content: "";
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.1));
+  }
 
-    .calendar__picture h2 {
-        margin: 0;
-    }
+  .calendar__picture h2 {
+    margin: 0;
+  }
 
-    .calendar__picture h3 {
-        margin: 0;
-        font-weight: 500;
-    }
+  .calendar__picture h3 {
+    margin: 0;
+    font-weight: 500;
+  }
 
-    .calendar__date {
-        padding: 20px;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(25px, 1fr));
-        grid-gap: 10px;
-        box-sizing: border-box;
-    }
+  .calendar__date {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25px, 1fr));
+    grid-gap: 10px;
+    box-sizing: border-box;
+  }
 
-    .calendar__day {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 25px;
-        font-weight: 600;
-        color: #262626;
-    }
+  .calendar__day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 25px;
+    font-weight: 600;
+    color: #262626;
+  }
 
-    .calendar__day:nth-child(1) {
-        color: #ff685d;
-    }
+  .calendar__day:nth-child(1) {
+    color: #ff685d;
+  }
 
-    .calendar__number {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 25px;
-        color: #262626;
-    }
+  .calendar__number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 25px;
+    color: #262626;
+  }
 
-    .calendar__number:nth-child(7n - 6) {
-        color: #ff685d;
-        font-weight: 700;
-    }
+  .calendar__number:nth-child(7n - 6) {
+    color: #ff685d;
+    font-weight: 700;
+  }
 
-    .calendar__number--current,
-    .calendar__number:hover {
-        background-color: #009688;
-        color: #fff !important;
-        font-weight: 700;
-        cursor: pointer;
-    }
+  .calendar__number--current,
+  .calendar__number:hover {
+    background-color: #009688;
+    color: #fff !important;
+    font-weight: 700;
+    cursor: pointer;
+  }
+   .calendar__number--event,
+   .calendar__number--event:hover {
+   background-color: #888;
+   color: #fff !important;
+   font-weight: 700;
+   cursor: not-allowed;
+   }
 </style>
 
 <body>
-    <div>
-        <div class="calendar">
-            <div class="calendar__picture">
-                <h2>18, Sunday</h2>
-                <h3>November</h3>
-            </div>
-            <div id="calendar" class="calendar__date">
-                <div class="calendar__day">S</div>
-                <div class="calendar__day">M</div>
-                <div class="calendar__day">T</div>
-                <div class="calendar__day">W</div>
-                <div class="calendar__day">T</div>
-                <div class="calendar__day">F</div>
-                <div class="calendar__day">S</div>
-            </div>
-        </div>
+  <div>
+    <div class="calendar">
+      <div class="calendar__picture">
+        <h2 id="title-day">numberical day, day spelled out</h2>
+        <h3 id="title-month">Month</h3>
+      </div>
+      <div id="calendar" class="calendar__date">
+        <div class="calendar__day">S</div>
+        <div class="calendar__day">M</div>
+        <div class="calendar__day">T</div>
+        <div class="calendar__day">W</div>
+        <div class="calendar__day">T</div>
+        <div class="calendar__day">F</div>
+        <div class="calendar__day">S</div>
+      </div>
+    </div>
 
-        <br><br><br><br>
-        
-        <!--Add buttons to initiate auth sequence and sign out-->
-        <div> <button id="authorize_button" style="display: none;">Authorize</button>
-            <button id="signout_button" style="display: none;">Sign Out</button>
-            <pre id="content" style="white-space: pre-wrap;"></pre>
-        </div>
-    </div> 
+    <br><br><br><br>
+
+    <!--Add buttons to initiate auth sequence and sign out-->
+    <div> <button id="authorize_button" style="display: none;">Authorize</button>
+      <button id="signout_button" style="display: none;">Sign Out</button>
+      <pre id="content" style="white-space: pre-wrap;"></pre>
+    </div>
+  </div>
 </body>
 <script>
-    let calHTML = document.getElementById("calendar")
-    let today = new Date()
-    // let notToday = today.setDate(today.getDate() + 2 )
-    // let todaysDate = today.getDay()
-    // alert(notToday)
-    let currentDate = today.getDate()
-    let nextMonth = today.getMonth() + 1
-    let year = today.getFullYear()
-    let maxDays = daysInMonth(nextMonth, year)
-    let blankDivs = previousMonth(nextMonth - 1, year)
+  class Convert {
+    static toDayName(dayNumber) {
 
+      switch (dayNumber) {
+        case 0: return "Sunday"
+        case 1: return "Monday"
+        case 2: return "Tuesday"
+        case 3: return "Wednesday"
+        case 4: return "Thursday"
+        case 5: return "Friday"
+        case 6: return "Saturday"
+        
+        default: throw "Number does not match any day of the week"
+      }
 
-    function daysInMonth(month, year) {
-        return new Date(year, month, 0).getDate()
     }
-
-    function previousMonth(month, year) {
-        return new Date(year, month, 0).getDay() + 1
+    static toMonthName(monthNumber) {
+        switch (monthNumber) {
+          case 0: return "January"
+          case 1: return "February"
+          case 2: return "March"
+          case 3: return "April"
+          case 4: return "May"
+          case 5: return "June"
+          case 6: return "July"
+          case 7: return "August"
+          case 8: return "September"
+          case 9: return "October"
+          case 10: return "November"
+          case 11: return "December"
+            
+        
+        
+          default: throw "Number is not a Month"
+        }
     }
-
-
-    for (let day = 0; day < blankDivs; day++) {
-        addBlankDivsHTML()
+    static fromString(date) {
+      let date_obj = new Date(date)
+      return date_obj.getDate()
     }
+  }
 
-    for (let day = 0; day < maxDays; day++) {
-        addDayHTML(day + 1)
+  class AddHTML {
+    static blankDiv() {
+      let div = document.createElement("div")
+      calHTML.appendChild(div)
+      div.className = "calendar__number"
     }
-
-    let todayDiv = document.getElementById("date-" + currentDate)
-
-    todayDiv.classList.add("calendar__number--current")
-
-    function addBlankDivsHTML() {
-        let div = document.createElement("div")
-        calHTML.appendChild(div)
-        div.className = "calendar__number"
+    static dayDiv(date) {
+      let div = document.createElement("div")
+      calHTML.appendChild(div)
+      div.className = "calendar__number"
+      div.id = "date-" + date
+      div.innerText = "" + date
     }
-
-    function addDayHTML(date) {
-        let div = document.createElement("div")
-        calHTML.appendChild(div)
-        div.className = "calendar__number"
-        div.id = "date-" + date
-        div.innerText = "" + date
-    }
+  }
 </script>
 <script>
-    var queryInput = {
-        calendarId: 'dcfl7sc1fkc8gtas5fptrglm1c@group.calendar.google.com',// 'primary',
-        timeMin: (new Date()).toISOString(),
-        showDeleted: false,
-        singleEvents: true,
-        maxResults: 10,
-        orderBy: 'startTime'
-      }
-    // Client ID and API key from the Developer Console
-    var CLIENT_ID = '267166709217-ondrgm9acmq6gvegnbvqfr7f0lp8hpu5.apps.googleusercontent.com';
-    var API_KEY = 'AIzaSyBsXs13s61GYFU75jnODQARp9YptRFuGZg';
+  let calHTML = document.getElementById("calendar")
+  let dayHTML = document.getElementById("title-day")
+  let monthHTML = document.getElementById("title-month")
+  let today = new Date()
+  // let notToday = today.setDate(today.getDate() + 2 )
+  // let todaysDate = today.getDay()
+  // alert(notToday)
+  let currentDate = today.getDate()
+  let nextMonth = today.getMonth() + 1
+  let year = today.getFullYear()
+  let maxDays = daysInMonth(nextMonth, year)
+  let blankDivs = previousMonth(nextMonth - 1, year)
+  let monthStart = currentMonth()
 
-    // Array of API discovery doc URLs for APIs used by the quickstart
-    var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
 
-    // Authorization scopes required by the API; multiple scopes can be
-    // included, separated by spaces.
-    var SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
+  function daysInMonth(month, year) {
+    return new Date(year, month, 0).getDate()
+  }
+  function currentMonth() {
+    return new Date(today.getFullYear(), today.getMonth(), 1)
+  }
+  function previousMonth(month, year) {
+    return new Date(year, month, 0).getDay() + 1
+  }
 
-    var authorizeButton = document.getElementById('authorize_button');
-    var signoutButton = document.getElementById('signout_button');
 
-    /**
-     *  On load, called to load the auth2 library and API client library.
-     */
-    function handleClientLoad() {
-      gapi.load('client:auth2', initClient);
-    }
+  for (let day = 0; day < blankDivs; day++) {
+    AddHTML.blankDiv()
+  }
 
-    /**
-     *  Initializes the API client library and sets up sign-in state
-     *  listeners.
-     */
-    function initClient() {
-      gapi.client.init({
-        apiKey: API_KEY,
-        clientId: CLIENT_ID,
-        discoveryDocs: DISCOVERY_DOCS,
-        scope: SCOPES
-      }).then(function () {
-        // Listen for sign-in state changes.
-        gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+  for (let day = 0; day < maxDays; day++) {
+    AddHTML.dayDiv(day + 1)
+  }
 
-        // Handle the initial sign-in state.
-        updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-        authorizeButton.onclick = handleAuthClick;
-        signoutButton.onclick = handleSignoutClick;
-      }, function(error) {
-        appendPre(JSON.stringify(error, null, 2));
-      });
-    }
+  setTodayDate()
 
-    /**
-     *  Called when the signed in status changes, to update the UI
-     *  appropriately. After a sign-in, the API is called.
-     */
-    function updateSigninStatus(isSignedIn) {
-      if (isSignedIn) {
-        authorizeButton.style.display = 'none';
-        signoutButton.style.display = 'block';
-        listUpcomingEvents();
-      } else {
-        authorizeButton.style.display = 'block';
-        signoutButton.style.display = 'none';
-      }
-    }
+  function setTodayDate() {
+    let todayDiv = document.getElementById("date-" + currentDate)
+    todayDiv.classList.add("calendar__number--current")
 
-    /**
-     *  Sign in the user upon button click.
-     */
-    function handleAuthClick(event) {
-      gapi.auth2.getAuthInstance().signIn();
-    }
+    dayHTML.innerText = currentDate + ", " + Convert.toDayName(today.getDay())
+    monthHTML.innerText = Convert.toMonthName(nextMonth - 1)
+  }
 
-    /**
-     *  Sign out the user upon button click.
-     */
-    function handleSignoutClick(event) {
-      gapi.auth2.getAuthInstance().signOut();
-    }
+  function setEventDate(eventDate) {
+    let todayDiv = document.getElementById("date-" + eventDate)
+    todayDiv.classList.add("calendar__number--event")
 
-    /**
-     * Append a pre element to the body containing the given message
-     * as its text node. Used to display the results of the API call.
-     *
-     * @param {string} message Text to be placed in pre element.
-     */
-    function appendPre(message) {
-      var pre = document.getElementById('content');
-      var textContent = document.createTextNode(message + '\n');
-      pre.appendChild(textContent);
-    }
-
-    /**
-     * Print the summary and start datetime/date of the next ten events in
-     * the authorized user's calendar. If no events are found an
-     * appropriate message is printed.
-     */
-    function listUpcomingEvents() {
-      console.log(gapi)
-      gapi.client.calendar.events.list(queryInput).then(function(response) {
-        var events = response.result.items;
-        appendPre('Upcoming events:');
-
-        if (events.length > 0) {
-          for (i = 0; i < events.length; i++) {
-            var event = events[i];
-            var when = event.start.dateTime;
-            if (!when) {
-              when = event.start.date;
-            }
-            appendPre(event.summary + ' (' + when + ')')
-          }
-        } else {
-          appendPre('No upcoming events found.');
-        }
-      });
-    }
-
+    dayHTML.innerText = currentDate + ", " + Convert.toDayName(today.getDay())
+    monthHTML.innerText = Convert.toMonthName(nextMonth - 1)
+  }
 </script>
-<script async defer src="https://apis.google.com/js/api.js"
-onload="this.onload=function(){};handleClientLoad()"
-onreadystatechange="if (this.readyState === 'complete') this.onload()">
+<script>
+  let queryInput = {
+    calendarId: 'dcfl7sc1fkc8gtas5fptrglm1c@group.calendar.google.com', // 'primary',
+    timeMin: monthStart.toISOString(),
+    showDeleted: false,
+    singleEvents: true,
+    maxResults: 10,
+    orderBy: 'startTime'
+  }
+  // Client ID and API key from the Developer Console
+  let CLIENT_ID = '267166709217-ondrgm9acmq6gvegnbvqfr7f0lp8hpu5.apps.googleusercontent.com';
+  let API_KEY = 'AIzaSyBsXs13s61GYFU75jnODQARp9YptRFuGZg';
+
+  // Array of API discovery doc URLs for APIs used by the quickstart
+  let DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
+
+  // Authorization scopes required by the API; multiple scopes can be
+  // included, separated by spaces.
+  let SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
+
+  let authorizeButton = document.getElementById('authorize_button');
+  let signoutButton = document.getElementById('signout_button');
+
+  /**
+   *  On load, called to load the auth2 library and API client library.
+   */
+  function handleClientLoad() {
+    gapi.load('client:auth2', initClient);
+  }
+
+  /**
+   *  Initializes the API client library and sets up sign-in state
+   *  listeners.
+   */
+  function initClient() {
+    gapi.client.init({
+      apiKey: API_KEY,
+      clientId: CLIENT_ID,
+      discoveryDocs: DISCOVERY_DOCS,
+      scope: SCOPES
+    }).then(function () {
+      // Listen for sign-in state changes.
+      gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+
+      // Handle the initial sign-in state.
+      updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+      authorizeButton.onclick = handleAuthClick;
+      signoutButton.onclick = handleSignoutClick;
+    }, function (error) {
+      appendPre(JSON.stringify(error, null, 2));
+    });
+  }
+
+  /**
+   *  Called when the signed in status changes, to update the UI
+   *  appropriately. After a sign-in, the API is called.
+   */
+  function updateSigninStatus(isSignedIn) {
+    if (isSignedIn) {
+      authorizeButton.style.display = 'none';
+      signoutButton.style.display = 'block';
+      listUpcomingEvents();
+    } else {
+      authorizeButton.style.display = 'block';
+      signoutButton.style.display = 'none';
+    }
+  }
+
+  /**
+   *  Sign in the user upon button click.
+   */
+  function handleAuthClick(event) {
+    gapi.auth2.getAuthInstance().signIn();
+  }
+
+  /**
+   *  Sign out the user upon button click.
+   */
+  function handleSignoutClick(event) {
+    gapi.auth2.getAuthInstance().signOut();
+  }
+
+  /**
+   * Append a pre element to the body containing the given message
+   * as its text node. Used to display the results of the API call.
+   *
+   * @param {string} message Text to be placed in pre element.
+   */
+  function appendPre(message) {
+    let pre = document.getElementById('content');
+    let textContent = document.createTextNode(message + '\n');
+    pre.appendChild(textContent);
+  }
+
+  /**
+   * Print the summary and start datetime/date of the next ten events in
+   * the authorized user's calendar. If no events are found an
+   * appropriate message is printed.
+   */
+  function listUpcomingEvents() {
+    console.log(gapi)
+    gapi.client.calendar.events.list(queryInput).then(function (response) {
+      let events = response.result.items;
+      appendPre('Upcoming events:');
+
+      if (events.length < 1) return appendPre('No upcoming events found.')
+
+      events.forEach(cal_evnt => {
+        console.log(cal_evnt)
+        let when = cal_evnt.start.date || cal_evnt.start.dateTime;
+        when = Convert.fromString(when);
+        let organizer= cal_evnt.organizer.displayName;
+        let email = cal_evnt.organizer.email;
+
+        setEventDate(when)
+       
+        appendPre(cal_evnt.summary + "\n" + when + "\n" + organizer + "\n" + email)
+      })
+    });
+  }
+</script>
+<script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()"
+  onreadystatechange="if (this.readyState === 'complete') this.onload()">
 </script>
 
 </html>
